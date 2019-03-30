@@ -10,7 +10,7 @@ export default class App extends Component {
     this.state = {
       mainInput: '',
       hello: this.hellos[0],
-      show: 'show'
+      classes: 'show'
     }
     this.updateInput = this.updateInput.bind(this);
   }
@@ -22,19 +22,15 @@ export default class App extends Component {
   componentDidMount(){
     this.interval = window.setInterval(async () => {
       this.setState({
-        show: ''
+        classes: ''
       });
       await this.wait();
-      if(this.counter < this.hellos.length){
+      if(this.counter <= this.hellos.length){
         this.setState({
           hello: this.hellos[this.counter++],
-          show: 'show'
+          classes: 'show'
         });
       } else {
-        this.setState({
-          hello: 'Would you like to report an issue?',
-          show: 'show'
-        });
         window.clearInterval(this.interval);
       }
 
@@ -51,11 +47,24 @@ export default class App extends Component {
   }
 
   render() {
+    if(this.counter <= this.hellos.length)
+      return (
+        <div className="App">
+          <div className="container d-flex flex-column justify-content-center page">
+            <div className="container">
+              <h1 className={`fade ${this.state.classes}`}>{this.state.hello}</h1>
+              <input className="form-control" onChange={this.updateInput}></input>
+            </div>
+          </div>
+        </div>
+      );
     return (
       <div className="App">
         <div className="container d-flex flex-column justify-content-center page">
           <div className="container">
-            <h1 className={`fade ${this.state.show}`}>{this.state.hello}</h1>
+            <div className={`unroll`}>
+              <h1>Would you like to report an issue?</h1>
+            </div>
             <input className="form-control" onChange={this.updateInput}></input>
           </div>
         </div>

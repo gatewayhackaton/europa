@@ -14,3 +14,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.unroll {
+  width: 100%;
+  overflow: hidden;
+  animation: unroll 2s;
+  white-space: nowrap;
+}
+
+@keyframes unroll {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
