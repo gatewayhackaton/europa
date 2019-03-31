@@ -11,6 +11,7 @@ class App extends Component {
   constructor(props){
     super(props);
     this.stream = null;
+    props.recognition.lang = 'en-US';
     props.stopListening();
     this.listening = false;
     window.addEventListener('click', () => {
@@ -24,10 +25,9 @@ class App extends Component {
 
     this.triggers = [
       {
-        phrase: /yes/,
-        function: () => this.askQuestion.bind(this)('Are you an EU citizen?', [
+        phrase: /form/,
+        function: () => this.askQuestion.bind(this)('Are you a Bulgarion national?', [
           {text: 'yes', classes: 'bg-success'},
-          {text: 'not sure', classes: 'bg-secondary'},
           {text: 'no', classes: 'bg-danger'},
         ], (reply) => {
           this.setState({
@@ -35,7 +35,7 @@ class App extends Component {
               isEuCitizen: reply
             }
           });
-          this.askQuestion.bind(this)('Do you enjoy snow?', [
+          this.askQuestion.bind(this)('Are you a European Union citizen?', [
             {text: 'yes', classes: 'bg-success'},
             {text: 'not sure', classes: 'bg-secondary'},
             {text: 'no', classes: 'bg-danger'},
