@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import TileBoard from './TileBoard.js';
 import Upload from './Upload.js';
 import './App.scss';
+import Camera from 'react-html5-camera-photo';
+import 'react-html5-camera-photo/build/css/index.css';
 
 export default class App extends Component {
   constructor(props){
@@ -54,7 +56,8 @@ export default class App extends Component {
       mainInput: '',
       hello: this.hellos[0],
       classes: 'show',
-      refine: ''
+      refine: '',
+      waitingForPicture: false
     }
     this.updateInput = this.updateInput.bind(this);
     this.promptImageUpload = this.promptImageUpload.bind(this);
@@ -77,7 +80,7 @@ export default class App extends Component {
   }
 
   promptImageUpload(){
-    let ref = (<Upload key={Math.random()}/>);
+    let ref = (<Upload key={Math.random()} takePic={() => this.setState({waitingForPicture: true})}/>);
     this.setState({
       refine: ref
     });
@@ -120,7 +123,16 @@ export default class App extends Component {
     );
   }
 
+  afterPic(dataUri){
+    this.setState({pic: dataUri, waitingForPicture: false});
+
+  }
+
   render() {
+    if(this.state.waitingForPicture)
+      return (<Camera idealFacingMode="environment" className="camera" onTakePhoto={this.afterPic.bind(this)}/>);
+    if(this.state.pic)
+      return (<img src={this.state.pic}/>)
     return (
       <div className="App">
         <div className="container d-flex flex-column justify-content-center page">

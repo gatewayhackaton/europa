@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Tile from './Tile.js';
+import Camera from 'react-html5-camera-photo';
+import 'react-html5-camera-photo/build/css/index.css';
 
 export default class TileBoard extends Component {
   constructor(props){
@@ -30,9 +32,8 @@ export default class TileBoard extends Component {
             <h5 className="tile-title">{this.props.title}</h5>
               <Tile classes="tile bg-secondary" text="browse..." interact={() => {
                 this.dismiss();
-                document.querySelector('#file-input').click();
+                this.props.takePic();
               }}/>
-              <input type="file" className="custom-file-input tile" id="file-input" hidden></input>
             </div>
           </div>
 
