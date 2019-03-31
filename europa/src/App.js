@@ -1,22 +1,86 @@
 import React, { Component } from 'react';
+import TileBoard from './TileBoard.js';
+import Upload from './Upload.js';
 import './App.scss';
 
 export default class App extends Component {
   constructor(props){
     super(props);
+
+    this.stream = null;
+
+    this.triggers = [
+      {
+        phrase: /yes/,
+        function: () => this.askQuestion.bind(this)('Are you an EU citizen?', [
+          {text: 'yes', classes: 'bg-success'},
+          {text: 'not sure', classes: 'bg-secondary'},
+          {text: 'no', classes: 'bg-danger'},
+        ], (reply) => {
+          this.setState({
+            file:{
+              isEuCitizen: reply
+            }
+          });
+          this.askQuestion.bind(this)('Do you enjoy snow?', [
+            {text: 'yes', classes: 'bg-success'},
+            {text: 'not sure', classes: 'bg-secondary'},
+            {text: 'no', classes: 'bg-danger'},
+          ], (reply) => {
+            let file = this.state.file;
+            file.enjoysSnow = reply;
+            this.setState({
+              file: file
+            });
+            this.promptImageUpload();
+            window.setTimeout(() => console.log(this.state.file), 500)
+          });
+        })
+      },
+      {
+        phrase: /no/,
+        function: () => this.askQuestion.bind(this)('Do you like green', [
+          {text: 'yes', classes: 'bg-success'},
+          {text: 'no', classes: 'bg-danger'},
+        ])
+      },
+    ];
+
+
     this.hellos = ['Hello', 'Bonjour', 'Hallo', 'Buongiorno '];
     this.counter = 1;
 
     this.state = {
       mainInput: '',
       hello: this.hellos[0],
-      classes: 'show'
+      classes: 'show',
+      refine: ''
     }
     this.updateInput = this.updateInput.bind(this);
+    this.promptImageUpload = this.promptImageUpload.bind(this);
   }
 
   updateInput(e){
     this.setState({mainInput: e.target.value});
+    for(let trigger of this.triggers){
+      if(e.target.value.match(trigger.phrase)){
+        trigger.function();
+      }
+    }
+  }
+
+  askQuestion(title, tiles, callback){
+    let ref = (<TileBoard title={title} tiles={tiles} callback={callback} key={Math.random()}/>);
+    this.setState({
+      refine: ref
+    });
+  }
+
+  promptImageUpload(){
+    let ref = (<Upload key={Math.random()}/>);
+    this.setState({
+      refine: ref
+    });
   }
 
   componentDidMount(){
@@ -35,7 +99,7 @@ export default class App extends Component {
       }
 
 
-    }, 2500);
+    }, 500);
   }
 
   async wait() {
@@ -46,26 +110,24 @@ export default class App extends Component {
     window.clearInterval(this.interval);
   }
 
-  render() {
+  title(){
     if(this.counter <= this.hellos.length)
-      return (
-        <div className="App">
-          <div className="container d-flex flex-column justify-content-center page">
-            <div className="container mw">
-              <h3 className={`fade ${this.state.classes}`}>{this.state.hello}</h3>
-              <input className="mx-auto form-control form-control-sm" onChange={this.updateInput}></input>
-            </div>
-          </div>
-        </div>
-      );
+      return (<h3 className={`fade ${this.state.classes}`}>{this.state.hello}</h3>);
+    return (
+      <div className="unroll mx-auto">
+        <h3>Report an issue...</h3>
+      </div>
+    );
+  }
+
+  render() {
     return (
       <div className="App">
         <div className="container d-flex flex-column justify-content-center page">
-          <div className="container mw d-flex flex-column align-items-center">
-            <div className={`unroll`}>
-              <h3>Report an issue...  </h3>
-            </div>
+          <div className="container mw">
+            {this.title()}
             <input className="mx-auto form-control form-control-sm" onChange={this.updateInput}></input>
+            {this.state.refine}
           </div>
         </div>
       </div>
