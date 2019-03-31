@@ -46,6 +46,9 @@ code {
   margin: 5px;
   color: $light;
   transition: transform 0.2s;
+  font-family: 'Prompt', sans-serif;
+  font-size: 22px;
+  
 
   &:hover {
     cursor: pointer;
@@ -79,4 +82,7 @@ video {
   width: 100vw !important;
   height: 100vh;
   object-fit: cover;
+}
+input {
+  filter: drop-shadow(0px 2px 2px #C0C0C0);
 }
