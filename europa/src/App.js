@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import TileBoard from './TileBoard.js';
 import Upload from './Upload.js';
 import './App.scss';
-import Camera from 'react-html5-camera-photo';
+import Camera, { FACING_MODES } from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
 
 export default class App extends Component {
@@ -130,7 +130,7 @@ export default class App extends Component {
 
   render() {
     if(this.state.waitingForPicture)
-      return (<Camera idealFacingMode="environment" className="camera" onTakePhoto={this.afterPic.bind(this)}/>);
+      return (<Camera idealFacingMode={FACING_MODES} className="camera" onTakePhoto={this.afterPic.bind(this)}/>);
     if(this.state.pic)
       return (<img src={this.state.pic}/>)
     return (
