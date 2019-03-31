@@ -4,7 +4,7 @@ import './App.scss';
 export default class App extends Component {
   constructor(props){
     super(props);
-    this.hellos = ['Hello', 'Bonjour', 'Hallo', 'Buongiorno'];
+    this.hellos = ['Hello', 'Bonjour', 'Hallo', 'Buongiorno '];
     this.counter = 1;
 
     this.state = {
