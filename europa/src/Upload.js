@@ -25,18 +25,12 @@ export default class TileBoard extends Component {
     return (
       <div className={"d-flex flex-column align-items-center pt-3 animated "+this.state.animation}>
         <h5 className="tile-title">{this.props.title}</h5>
-        <div className="d-flex align-items-center pt-3">
-
-          <div className="input-group mb-3">
-            <div className="custom-file">
-            <h5 className="tile-title">{this.props.title}</h5>
-              <Tile classes="tile bg-secondary" text="browse..." interact={() => {
-                this.dismiss();
-                this.props.takePic();
-              }}/>
-            </div>
-          </div>
-
+        <div className="d-flex flex-column align-items-center pt-3">
+          <h5 className="tile-title">Upload a picture</h5>
+          <Tile classes="tile bg-secondary" text="browse..." interact={() => {
+            this.dismiss();
+            this.props.takePic();
+          }}/>
         </div>
       </div>
     );
