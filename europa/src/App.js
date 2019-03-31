@@ -13,7 +13,7 @@ class App extends Component {
     this.stream = null;
     props.stopListening();
     this.listening = false;
-    window.addEventListener('keydown', () => {
+    window.addEventListener('click', () => {
       if(this.listening){
         props.stopListening();
       } else {
