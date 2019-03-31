@@ -35,7 +35,7 @@ export default class App extends Component {
       }
 
 
-    }, 500);
+    }, 2500);
   }
 
   async wait() {
@@ -51,9 +51,9 @@ export default class App extends Component {
       return (
         <div className="App">
           <div className="container d-flex flex-column justify-content-center page">
-            <div className="container">
-              <h1 className={`fade ${this.state.classes}`}>{this.state.hello}</h1>
-              <input className="form-control" onChange={this.updateInput}></input>
+            <div className="container mw">
+              <h3 className={`fade ${this.state.classes}`}>{this.state.hello}</h3>
+              <input className="mx-auto form-control form-control-sm" onChange={this.updateInput}></input>
             </div>
           </div>
         </div>
@@ -61,11 +61,11 @@ export default class App extends Component {
     return (
       <div className="App">
         <div className="container d-flex flex-column justify-content-center page">
-          <div className="container">
+          <div className="container mw d-flex flex-column align-items-center">
             <div className={`unroll`}>
-              <h1>Would you like to report an issue?</h1>
+              <h3>Report an issue...  </h3>
             </div>
-            <input className="form-control" onChange={this.updateInput}></input>
+            <input className="mx-auto form-control form-control-sm" onChange={this.updateInput}></input>
           </div>
         </div>
       </div>
