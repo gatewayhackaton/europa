@@ -5,11 +5,11 @@ import Report from './Report.js';
 import './App.scss';
 import Camera from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
+import SpeechRecognition from 'react-speech-recognition';
 
-export default class App extends Component {
+class App extends Component {
   constructor(props){
     super(props);
-
     this.stream = null;
 
     this.triggers = [
@@ -124,11 +124,22 @@ export default class App extends Component {
     );
   }
 
+  componentWillReceiveProps(props){
+    if(props.startTime !== this.state.startTime) {
+      this.setState({mainInput: props.transcript});
+    }
+  }
+
   afterPic(dataUri){
     this.setState({pic: dataUri, waitingForPicture: false});
   }
 
   render() {
+    const { transcript, resetTranscript, browserSupportsSpeechRecognition } = this.props;
+
+    if (!browserSupportsSpeechRecognition) {
+      return "no stt";
+    }
     if(this.state.waitingForPicture)
       return (<Camera idealFacingMode="environment" className="camera" onTakePhoto={this.afterPic.bind(this)}/>);
     if(this.state.pic)
@@ -137,7 +148,7 @@ export default class App extends Component {
       <div className="App">
         <div className="container d-flex flex-column justify-content-center page">
           <div className="container mw">
-            {this.title()}
+            {this.title()}{transcript}
             <input className="mx-auto form-control form-control-sm" onChange={this.updateInput}></input>
             {this.state.refine}
           </div>
@@ -146,3 +157,5 @@ export default class App extends Component {
     );
   }
 }
+
+export default SpeechRecognition(App);
