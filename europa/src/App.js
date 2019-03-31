@@ -124,9 +124,18 @@ class App extends Component {
     );
   }
 
-  componentWillReceiveProps(props){
-    if(props.startTime !== this.state.startTime) {
-      this.setState({mainInput: props.transcript});
+  componentDidUpdate(old){
+    console.log('componentDidUpdate');
+    if(old.transcript != this.props.transcript)
+      this.setState({mainInput: this.props.transcript});
+    if(!this.state.analyzed){
+      let input = document.querySelector('input');
+      for(let trigger of this.triggers){
+        if(input.value.match(trigger.phrase)){
+          this.state.analyzed = true;
+          trigger.function();
+        }
+      }
     }
   }
 
@@ -148,8 +157,8 @@ class App extends Component {
       <div className="App">
         <div className="container d-flex flex-column justify-content-center page">
           <div className="container mw">
-            {this.title()}{transcript}
-            <input className="mx-auto form-control form-control-sm" onChange={this.updateInput}></input>
+            {this.title()}
+            <input className="mx-auto form-control form-control-sm" value={this.state.mainInput} onChange={this.updateInput}></input>
             {this.state.refine}
           </div>
         </div>
