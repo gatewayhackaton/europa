@@ -11,6 +11,16 @@ class App extends Component {
   constructor(props){
     super(props);
     this.stream = null;
+    props.stopListening();
+    this.listening = false;
+    window.addEventListener('keydown', () => {
+      if(this.listening){
+        props.stopListening();
+      } else {
+        props.startListening();
+      }
+      this.listening = !this.listening;
+    })
 
     this.triggers = [
       {
